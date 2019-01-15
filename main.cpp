@@ -19,14 +19,21 @@ void printCommands()
     std::cout << "#-----------------#" << std::endl;
 }
 
-void printStatus()
+void printStatus(const task_status& status)
 {
 	std::cout << "The status is" << std::endl;
 }
 
-void printCommandOutput(const std::string& cmd)
+void printCommandOutput(task_id id, const std::string& cmd)
 {
-	std::cout << "Command: " << cmd << " successful. Task [" << 0 << "]." << std::endl;
+	if(id < 0)
+    {
+		std::cout << "Command: " << cmd << " successful. Task [" << id << "]." << std::endl;
+    }
+    else
+    {
+		std::cout << "Oh oh. There was a problem when starting the task." << std::endl;
+    }
 }
 
 int main(int argc, char* argv[]) {
@@ -57,27 +64,27 @@ int main(int argc, char* argv[]) {
 	    {
 	    	if(inputCmd[0] == "start")
             {
-                printCommandOutput(inputCmd[0]);
+                printCommandOutput(startTask(), inputCmd[0]);
                 continue;
             }
             else if(inputCmd[0] == "pause")
             {
-                printCommandOutput(inputCmd[0]);
+                printCommandOutput(pauseTask(0), inputCmd[0]);
                 continue;
             }
             else if(inputCmd[0] == "resume")
             {
-                printCommandOutput(inputCmd[0]);
+                printCommandOutput(resumeTask(0), inputCmd[0]);
                 continue;
             }
             else if(inputCmd[0] == "stop")
             {
-                printCommandOutput(inputCmd[0]);
+                printCommandOutput(stopTask(0), inputCmd[0]);
                 continue;
             }
             else if(inputCmd[0] == "status")
             {
-                printStatus();
+                printStatus(status());
                 continue;
             }
             else if(inputCmd[0] == "quit")
@@ -95,8 +102,6 @@ bad_cmd:
     	// Something went wrong
     	printCommands();
     	continue;
-status:
-    	printStatus();
     }
 
 quit:
